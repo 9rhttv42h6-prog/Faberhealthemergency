@@ -156,7 +156,7 @@
             margin-top: 15px;
         }
 
-        /* STILE CARD GENERATA (PRO & HI-TECH) */
+        /* STILE TESSERA PRIVACY & ESSENZIALE */
         #result-card {
             display: none;
             margin-top: 20px;
@@ -166,6 +166,7 @@
             padding: 20px;
             color: #fff;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
         }
         .card-top {
             display: flex;
@@ -173,13 +174,14 @@
             align-items: center;
             border-bottom: 1px solid rgba(255,255,255,0.15);
             padding-bottom: 10px;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
         }
         .card-top-title {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 800;
             letter-spacing: 1px;
             color: var(--text-main);
+            text-align: left;
         }
         .card-top-brand {
             font-size: 11px;
@@ -187,10 +189,23 @@
             color: var(--primary-cyan);
             letter-spacing: 0.5px;
         }
-        .card-body-content p {
-            margin: 5px 0;
+        .card-holder-info {
+            margin-bottom: 15px;
+        }
+        .card-holder-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 0 0 5px 0;
+        }
+        .card-holder-details {
             font-size: 13px;
-            line-height: 1.35;
+            color: var(--text-muted);
+            margin: 0;
+        }
+        .card-holder-details span {
+            color: var(--primary-cyan);
+            font-weight: bold;
         }
         .card-meta-box {
             display: flex;
@@ -204,11 +219,18 @@
         #qrcode-container {
             display: flex;
             justify-content: center;
-            margin-top: 15px;
+            margin: 15px 0;
             background: #ffffff;
             padding: 12px;
             border-radius: 12px;
             box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .scan-instruction {
+            font-size: 10px;
+            color: var(--primary-cyan);
+            margin-top: 6px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
         }
     </style>
 </head>
@@ -291,27 +313,32 @@
     <div class="footer-note" id="lbl-footer">🔒 100% Offline • Universale per Soccorritori</div>
 </div>
 
-<!-- Card visiva pronta per il salvataggio in galleria -->
+<!-- Card visiva essenziale con solo identificativi e QR Code -->
 <div class="container" id="result-card">
     <div class="card-top">
-        <span class="card-top-title" id="card-title-text">EMERGENCY MEDICAL CARD</span>
-        <span class="card-top-brand">FABERHEALTH</span>
+        <span class="card-top-title" id="card-title-text">FABERHEALTH EMERGENCY CARD</span>
+        <span class="card-top-brand">SECURE ID</span>
     </div>
-    <div class="card-body-content" id="card-content-text">
-        <!-- Dati clinici iniettati -->
+    
+    <div class="card-holder-info">
+        <h2 class="card-holder-name" id="card-name-display">Nome Cognome</h2>
+        <p class="card-holder-details" id="card-blood-display">Blood Type: <span>A+</span></p>
     </div>
-    <div class="card-meta-box" id="card-meta-text">
-        <!-- Metadati -->
-    </div>
+
     <div id="qrcode-container">
         <div id="qrcode"></div>
     </div>
+    <div class="scan-instruction" id="lbl-scan-hint">📲 SCAN FOR FULL MEDICAL PROFILE & ICE</div>
+
+    <div class="card-meta-box" id="card-meta-text">
+        <!-- Metadati essenziali -->
+    </div>
+
     <button class="btn" id="btn-scarica" style="margin-top:15px; background:#ff4d4d; color:#fff;" onclick="salvaImmagine()">📥 SCARICA NELLA GALLERIA / SAVE</button>
     <button class="btn" id="btn-modifica" style="margin-top:10px; background:transparent; color:var(--text-muted); border:1px solid rgba(255,255,255,0.2);" onclick="chiudiCard()">🔄 MODIFICA / EDIT</button>
 </div>
 
 <script>
-    // Testi multilingua integrati
     const dizionario = {
         it: {
             nome: "NOME E COGNOME:",
@@ -325,12 +352,12 @@
             gdpr: "Accetto il trattamento locale dei dati sanitari (Zero-Knowledge, GDPR & EHDS Compliant).",
             genera: "GENERA CARD & SALVA IMMAGINE",
             footer: "🔒 100% Offline • Universale per Soccorritori",
-            cardTitle: "EMERGENCY MEDICAL CARD",
+            cardTitle: "FABERHEALTH EMERGENCY CARD",
+            scanHint: "📲 SCANSIONA PER PROFILO MEDICO COMPLETO E ICE",
             scarica: "📥 SCARICA NELLA GALLERIA",
             modifica: "🔄 MODIFICA DATI",
             errNome: "Inserisci almeno il Nome e Cognome.",
-            errGdpr: "Devi accettare l'informativa sulla privacy locale GDPR.",
-            etichetteCard: { nome: "Nome", sangue: "Gruppo Sanguigno", ice: "Contatto ICE", patologie: "Patologie", allergie: "Allergie", farmaci: "Farmaci", interventi: "Interventi" }
+            errGdpr: "Devi accettare l'informativa sulla privacy locale GDPR."
         },
         en: {
             nome: "FULL NAME:",
@@ -344,12 +371,12 @@
             gdpr: "I accept local health data processing (Zero-Knowledge, GDPR & EHDS Compliant).",
             genera: "GENERATE CARD & SAVE IMAGE",
             footer: "🔒 100% Offline • Universal First Responders Ready",
-            cardTitle: "EMERGENCY MEDICAL CARD",
+            cardTitle: "FABERHEALTH EMERGENCY CARD",
+            scanHint: "📲 SCAN FOR FULL MEDICAL PROFILE & ICE",
             scarica: "📥 SAVE TO GALLERY",
             modifica: "🔄 EDIT DATA",
             errNome: "Please enter at least your Full Name.",
-            errGdpr: "You must accept the local GDPR privacy policy.",
-            etichetteCard: { nome: "Name", sangue: "Blood Type", ice: "ICE Contact", patologie: "Pathologies", allergie: "Allergies", farmaci: "Medications", interventi: "Surgeries" }
+            errGdpr: "You must accept the local GDPR privacy policy."
         }
     };
 
@@ -375,6 +402,7 @@
         document.getElementById('btn-genera').innerText = t.genera;
         document.getElementById('lbl-footer').innerText = t.footer;
         document.getElementById('card-title-text').innerText = t.cardTitle;
+        document.getElementById('lbl-scan-hint').innerText = t.scanHint;
         document.getElementById('btn-scarica').innerText = t.scarica;
         document.getElementById('btn-modifica').innerText = t.modifica;
     }
@@ -405,21 +433,12 @@
         const emissioneDate = new Date().toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-GB');
         const scadenzaFormatted = scadenzaInput ? new Date(scadenzaInput).toLocaleDateString(lang === 'it' ? 'it-IT' : 'en-GB') : 'N/D';
         const cardId = 'FH-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-        const ec = t.etichetteCard;
 
-        // Popola i dati clinici nella card stilizzata
-        const textContainer = document.getElementById('card-content-text');
-        textContainer.innerHTML = `
-            <p><strong>${ec.nome}:</strong> ${nome}</p>
-            <p><strong>${ec.sangue}:</strong> <span style="color:var(--primary-cyan); font-weight:bold;">${sangue}</span></p>
-            <p><strong>${ec.ice}:</strong> <a href="tel:${ice}" style="color:var(--primary-cyan); text-decoration:none;">${ice || 'N/D'}</a></p>
-            <p><strong>${ec.patologie}:</strong> ${patologie || 'None / N/A'}</p>
-            <p><strong>${ec.allergie}:</strong> ${allergie || 'None / N/A'}</p>
-            <p><strong>${ec.farmaci}:</strong> ${farmaci || 'None / N/A'}</p>
-            <p><strong>${ec.interventi}:</strong> ${interventi || 'None / N/A'}</p>
-        `;
+        // Mostra sulla card solo Nome, Gruppo Sanguigno e Identificativi
+        document.getElementById('card-name-display').innerText = nome;
+        document.getElementById('card-blood-display').innerHTML = (lang === 'it' ? 'Gruppo Sanguigno: ' : 'Blood Type: ') + `<span style="color:var(--primary-cyan);">${sangue}</span>`;
 
-        // Metadati inferiori della card
+        // Metadati con ID, Data di emissione e Data di scadenza
         const metaContainer = document.getElementById('card-meta-text');
         metaContainer.innerHTML = `
             <span>ID: <strong>${cardId}</strong></span>
@@ -427,14 +446,14 @@
             <span>Exp: <strong style="color:var(--accent-red);">${scadenzaFormatted}</strong></span>
         `;
 
-        // Generazione QR Code internazionale
+        // Inserisce tutto il profilo clinico completo nel QR Code per i soccorritori
         document.getElementById('qrcode').innerHTML = "";
-        const qrData = `FABERHEALTH ID: ${cardId}\n${ec.nome}: ${nome}\n${ec.sangue}: ${sangue}\n${ec.ice}: ${ice}\n${ec.patologie}: ${patologie}\n${ec.allergie}: ${allergie}\n${ec.farmaci}: ${farmaci}\nExp: ${scadenzaFormatted}`;
+        const qrData = `FABERHEALTH EMERGENCY CARD\nID: ${cardId}\nName: ${nome}\nBlood: ${sangue}\nICE Contact: ${ice}\nPathologies: ${patologie || 'None'}\nAllergies: ${allergie || 'None'}\nMedications: ${farmaci || 'None'}\nSurgeries: ${interventi || 'None'}\nValid Until: ${scadenzaFormatted}`;
         
         new QRCode(document.getElementById("qrcode"), {
             text: qrData,
-            width: 130,
-            height: 130
+            width: 140,
+            height: 140
         });
 
         // Transizione visiva
